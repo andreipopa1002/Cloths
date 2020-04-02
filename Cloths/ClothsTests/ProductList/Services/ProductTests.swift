@@ -2,21 +2,9 @@ import XCTest
 @testable import Cloths
 
 final class ProductTests: XCTestCase {
-    var decoder: JSONDecoder!
-
-    override func setUp() {
-        super.setUp()
-
-        decoder = JSONDecoder()
-    }
-
-    override func tearDown() {
-        decoder = nil
-
-        super.tearDown()
-    }
 
     func test_WhenDecode_ThenProducts() {
+        let decoder = JSONDecoder()
         let dataJson = fiveProductsStringJson().data(using: .utf8)!
         let products = try? decoder.decode([Product].self, from: dataJson)
         XCTAssertEqual(products, expectedProducts())
@@ -68,5 +56,17 @@ private extension ProductTests {
         }
         ]
         """
+    }
+}
+
+extension Product {
+    static var stub: Product {
+        Product(id: 0,
+                name: "name",
+                category: "category",
+                price: "123.32",
+                oldPrice: nil,
+                stock: 2
+        )
     }
 }

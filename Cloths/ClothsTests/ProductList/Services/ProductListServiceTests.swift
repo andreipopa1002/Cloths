@@ -63,15 +63,3 @@ final class ProductListServiceTests: XCTestCase {
         XCTAssertEqual(capturedError?.localizedDescription, stubbedError.localizedDescription)
     }
 }
-
-private extension Product {
-    static var stub: Product {
-        Product(id: 0,
-                name: "name",
-                category: "category",
-                price: "123.32",
-                oldPrice: nil,
-                stock: 2
-        )
-    }
-}
