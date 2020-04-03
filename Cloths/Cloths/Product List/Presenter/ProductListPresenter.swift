@@ -30,12 +30,16 @@ extension ProductListPresenter: ProductListPresenterInterface {
 
 extension ProductListPresenter: ProductListInteractorOutputInterface {
     func didFetched(products: [Product]) {
-        view?.didFetch(
-            productList: viewModelBuilder.viewModel(from: products)
-        )
+        DispatchQueue.main.async {
+            self.view?.didFetch(
+                productList: self.viewModelBuilder.viewModel(from: products)
+            )
+        }
     }
 
     func didFailed(error: Error) {
-        router.present(error: error)
+        DispatchQueue.main.async {
+            self.router.present(error: error)
+        }
     }
 }

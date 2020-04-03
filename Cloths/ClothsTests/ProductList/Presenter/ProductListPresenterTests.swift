@@ -41,27 +41,38 @@ final class ProductListPresenterTests: XCTestCase {
 
     // MARK: - didFailed
     func test_WhenDidFailed_ThenRouterWithError() {
+        mockedRouter.expectation = expectation(description: "main thread expectation")
         presenter.didFailed(error: DummyError(customDescription: "did failed"))
-        XCTAssertEqual(
-            mockedRouter.spyPresentError.map {$0.localizedDescription},
-            ["did failed"]
-        )
+        waitForExpectations(timeout: 0.1) { _ in
+            XCTAssertEqual(
+                self.mockedRouter.spyPresentError.map {$0.localizedDescription},
+                ["did failed"]
+            )
+        }
     }
 
     // MARK: - didFetch
     func test_WhenDidFetched_ThenViewModelBuilderReceivedsProducts() {
+        mockedView.expectation = expectation(description: "main thread expectation")
         let products = [Product.stub]
+
         presenter.didFetched(products: products)
-        XCTAssertEqual(mockedViewModelBuilder.spyViewModelProductList, [products])
+
+        waitForExpectations(timeout: 0.1) { _ in
+            XCTAssertEqual(self.mockedViewModelBuilder.spyViewModelProductList, [products])
+        }
     }
 
     func test_WhenDidFetched_ThenViewReceivesViewModelFromBuilder() {
+        mockedView.expectation = expectation(description: "main thread expectation")
         let stubbedViewModel = [ProductListViewModel.stub]
         mockedViewModelBuilder.stubbedViewModel = stubbedViewModel
 
         presenter.didFetched(products: [Product.stub])
 
-        XCTAssertEqual(mockedView.spyDidFetchProductList, [stubbedViewModel])
+        waitForExpectations(timeout: 0.1) { _ in
+            XCTAssertEqual(self.mockedView.spyDidFetchProductList, [stubbedViewModel])
+        }
     }
 }
 
@@ -74,10 +85,12 @@ private class MockProductListInteractor: ProductListInteractorInterface {
 }
 
 private class MockProductListRouter: ProductRouterInterface {
+    var expectation: XCTestExpectation?
     private(set) var spyPresentError = [Error]()
 
     func present(error: Error) {
         spyPresentError.append(error)
+        expectation?.fulfill()
     }
 }
 
@@ -92,10 +105,12 @@ private class MockViewModelBuilder: ProductViewModelBuilderInterface {
 }
 
 private class MockProductListView: ProductListViewInterface {
+    var expectation: XCTestExpectation?
     private(set) var spyDidFetchProductList = [[ProductListViewModel]]()
 
     func didFetch(productList: [ProductListViewModel]) {
         spyDidFetchProductList.append(productList)
+        expectation?.fulfill()
     }
 }
 

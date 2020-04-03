@@ -13,11 +13,19 @@ protocol ProductListViewInterface: AnyObject {
 final class ProductListViewController: UIViewController {
     @IBOutlet private weak var tableView: UITableView!
     private var productList = [ProductListViewModel]()
+    var presenter: ProductListPresenterInterface?
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        presenter?.onViewDidLoad()
+    }
 }
 
 extension ProductListViewController: ProductListViewInterface {
     func didFetch(productList: [ProductListViewModel]) {
         self.productList = productList
+        self.tableView.reloadData()
     }
 }
 

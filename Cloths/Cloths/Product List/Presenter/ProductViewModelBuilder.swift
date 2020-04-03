@@ -25,10 +25,15 @@ final class ProductViewModelBuilder: ProductViewModelBuilderInterface {
 
 private extension ProductViewModelBuilder {
     func productViewModel(from product: Product) -> ProductViewModel {
-        ProductViewModel(
-            name: product.name,
-            price: product.price,
-            oldPrice: product.oldPrice
+        var oldPrice: String?
+        if let price = product.oldPrice {
+            oldPrice = "Old price: " + price
+        }
+        
+        return ProductViewModel(
+            name: "Product: " + product.name,
+            price: "Price:" + product.price,
+            oldPrice: oldPrice
         )
     }
 }
