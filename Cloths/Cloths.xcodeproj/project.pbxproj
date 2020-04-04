@@ -42,6 +42,7 @@
 		25C329D62437F5BB00B315B3 /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C329D52437F5BB00B315B3 /* AppRouter.swift */; };
 		25C329DB2438004B00B315B3 /* BasketService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C329DA2438004B00B315B3 /* BasketService.swift */; };
 		25C329DD2438A90D00B315B3 /* ProductViewModelBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C329DC2438A90D00B315B3 /* ProductViewModelBuilderTests.swift */; };
+		25C329E02438B72D00B315B3 /* BasketServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C329DF2438B72D00B315B3 /* BasketServiceTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -94,6 +95,7 @@
 		25C329D52437F5BB00B315B3 /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
 		25C329DA2438004B00B315B3 /* BasketService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasketService.swift; sourceTree = "<group>"; };
 		25C329DC2438A90D00B315B3 /* ProductViewModelBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductViewModelBuilderTests.swift; sourceTree = "<group>"; };
+		25C329DF2438B72D00B315B3 /* BasketServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasketServiceTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -257,8 +259,8 @@
 		25C328572436603600B315B3 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				25C329D92438001700B315B3 /* Basket service */,
-				25C329D72437FFE200B315B3 /* Product service */,
+				25C329D92438001700B315B3 /* Basket */,
+				25C329D72437FFE200B315B3 /* ProductList */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -276,7 +278,8 @@
 		25C3285B2436651500B315B3 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				25C329D82437FFFF00B315B3 /* Product service */,
+				25C329DE2438B70C00B315B3 /* Basket */,
+				25C329D82437FFFF00B315B3 /* ProductList */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -334,30 +337,38 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		25C329D72437FFE200B315B3 /* Product service */ = {
+		25C329D72437FFE200B315B3 /* ProductList */ = {
 			isa = PBXGroup;
 			children = (
 				25C328582436609F00B315B3 /* ProductListService.swift */,
 				25C32860243673AB00B315B3 /* Product.swift */,
 			);
-			path = "Product service";
+			path = ProductList;
 			sourceTree = "<group>";
 		};
-		25C329D82437FFFF00B315B3 /* Product service */ = {
+		25C329D82437FFFF00B315B3 /* ProductList */ = {
 			isa = PBXGroup;
 			children = (
 				25C3285C2436653200B315B3 /* ProductListServiceTests.swift */,
 				25C32864243678FF00B315B3 /* ProductTests.swift */,
 			);
-			path = "Product service";
+			path = ProductList;
 			sourceTree = "<group>";
 		};
-		25C329D92438001700B315B3 /* Basket service */ = {
+		25C329D92438001700B315B3 /* Basket */ = {
 			isa = PBXGroup;
 			children = (
 				25C329DA2438004B00B315B3 /* BasketService.swift */,
 			);
-			path = "Basket service";
+			path = Basket;
+			sourceTree = "<group>";
+		};
+		25C329DE2438B70C00B315B3 /* Basket */ = {
+			isa = PBXGroup;
+			children = (
+				25C329DF2438B72D00B315B3 /* BasketServiceTests.swift */,
+			);
+			path = Basket;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -488,6 +499,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				25C329E02438B72D00B315B3 /* BasketServiceTests.swift in Sources */,
 				25C3286B24367DE700B315B3 /* ProductListInteractorTests.swift in Sources */,
 				25C3284C2436592E00B315B3 /* DecodingServiceTests.swift in Sources */,
 				25C3285D2436653200B315B3 /* ProductListServiceTests.swift in Sources */,
