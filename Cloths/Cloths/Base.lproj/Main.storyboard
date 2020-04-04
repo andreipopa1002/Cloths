@@ -20,14 +20,14 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ProductTableViewCell" id="HQW-bV-e9J" customClass="ProductTableViewCell" customModule="Cloths" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="398" height="86"/>
+                                        <rect key="frame" x="0.0" y="28" width="398" height="100.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="HQW-bV-e9J" id="Ru5-y1-bwl">
-                                            <rect key="frame" x="0.0" y="0.0" width="398" height="86"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="398" height="100.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="6py-HL-fIY">
-                                                    <rect key="frame" x="0.0" y="0.0" width="398" height="86"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="398" height="100.5"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ep9-3o-s4Z">
                                                             <rect key="frame" x="0.0" y="0.0" width="398" height="20.5"/>
@@ -47,8 +47,14 @@
                                                             <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cUF-v5-WFv" userLabel="Stock Label">
+                                                            <rect key="frame" x="0.0" y="56" width="398" height="14.5"/>
+                                                            <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="12"/>
+                                                            <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
                                                         <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="OpN-m1-DXR">
-                                                            <rect key="frame" x="0.0" y="56" width="398" height="30"/>
+                                                            <rect key="frame" x="0.0" y="70.5" width="398" height="30"/>
                                                             <subviews>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rmP-i4-P47" userLabel="Add to Wish List">
                                                                     <rect key="frame" x="0.0" y="0.0" width="199" height="30"/>
@@ -77,10 +83,10 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="addToWishListButton" destination="rmP-i4-P47" id="pEa-9q-jI1"/>
                                             <outlet property="oldPriceLabel" destination="XS9-vD-l70" id="70Q-qI-3IE"/>
                                             <outlet property="priceLabel" destination="ZCu-xS-mq8" id="COw-2Y-Mwh"/>
                                             <outlet property="productLabel" destination="ep9-3o-s4Z" id="iSM-QP-FDl"/>
+                                            <outlet property="stockLabel" destination="cUF-v5-WFv" id="nhd-NS-vjV"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

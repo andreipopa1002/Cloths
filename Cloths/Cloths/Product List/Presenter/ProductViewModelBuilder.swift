@@ -4,8 +4,17 @@ protocol ProductViewModelBuilderInterface {
     func viewModel(from productList: [Product]) -> [ProductListViewModel]
 }
 
-final class ProductViewModelBuilder: ProductViewModelBuilderInterface {
-    func viewModel(from productList: [Product]) -> [ProductListViewModel] {
+final class ProductViewModelBuilder {
+    private let interactor: ProductListInteractorInterface!
+
+    init(interactor: ProductListInteractorInterface) {
+        self.interactor = interactor
+    }
+}
+
+extension ProductViewModelBuilder:  ProductViewModelBuilderInterface {
+    func viewModel(
+        from productList: [Product]) -> [ProductListViewModel] {
         let sortedSections = Set(productList.map {$0.category}).sorted()
         var productListViewModel = [ProductListViewModel]()
 
@@ -34,7 +43,10 @@ private extension ProductViewModelBuilder {
             name: "Product: " + product.name,
             price: "Price: " + product.price,
             oldPrice: oldPrice,
-            addToBasketAction: {}
+            stockNumber: "\(product.stock) in stock",
+            addToBasketAction: { [weak self] in
+                self?.interactor.addToBasket(productId: product.id)
+            }
         )
     }
 }
