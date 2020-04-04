@@ -28,21 +28,21 @@ final class ProductViewModelBuilderTests: XCTestCase {
 
     func test_GivenMultipleUnordoredProducts_WhenViewModel_ThenCat1Has2Products() {
         let expectedViewModels = [
-            ProductViewModel(name: "Product: ab", price: "Price: 1", oldPrice: "Old price: 2"),
-            ProductViewModel(name: "Product: ab2", price: "Price: 3", oldPrice: nil)
+            ProductViewModel(name: "Product: ab", price: "Price: 1", oldPrice: "Old price: 2", addToBasketAction: {}),
+            ProductViewModel(name: "Product: ab2", price: "Price: 3", oldPrice: nil, addToBasketAction: {})
             ]
 
         XCTAssertEqual(productViewModels(forCategory: "cat1"), expectedViewModels)
     }
 
     func test_GivenMultipleUnordoredProducts_WhenViewModel_ThenCat2Has1Product () {
-        let expectedViewModels = [ProductViewModel(name: "Product: az", price: "Price: 1", oldPrice: nil)]
+        let expectedViewModels = [ProductViewModel(name: "Product: az", price: "Price: 1", oldPrice: nil, addToBasketAction: {})]
 
         XCTAssertEqual(productViewModels(forCategory: "cat2"), expectedViewModels)
     }
 
     func test_GivenMultipleUnordoredProducts_WhenViewModel_ThenCat3Has1Product () {
-        let expectedViewModels = [ProductViewModel(name: "Product: aa", price: "Price: 1", oldPrice: "Old price: 2")]
+        let expectedViewModels = [ProductViewModel(name: "Product: aa", price: "Price: 1", oldPrice: "Old price: 2", addToBasketAction: {})]
         XCTAssertEqual(productViewModels(forCategory: "cat3"), expectedViewModels)
     }
 
@@ -64,17 +64,17 @@ private extension ProductViewModelBuilderTests {
         [ProductListViewModel(
             category: "cat1",
             products: [
-                ProductViewModel(name: "Product: ab", price: "Price: 1", oldPrice: "Old price: 2"),
-                ProductViewModel(name: "Product: ab2", price: "Price: 3", oldPrice: nil)
+                ProductViewModel(name: "Product: ab", price: "Price: 1", oldPrice: "Old price: 2", addToBasketAction: {}),
+                ProductViewModel(name: "Product: ab2", price: "Price: 3", oldPrice: nil, addToBasketAction: {})
                 ]
             ),
          ProductListViewModel(
             category: "cat2",
-            products: [ProductViewModel(name: "Product: az", price: "Price: 1", oldPrice: nil)]
+            products: [ProductViewModel(name: "Product: az", price: "Price: 1", oldPrice: nil, addToBasketAction: {})]
             ),
          ProductListViewModel(
             category: "cat3",
-            products: [ProductViewModel(name: "Product: aa", price: "Price: 1", oldPrice: "Old price: 2")]
+            products: [ProductViewModel(name: "Product: aa", price: "Price: 1", oldPrice: "Old price: 2", addToBasketAction: {})]
             )
         ]
     }

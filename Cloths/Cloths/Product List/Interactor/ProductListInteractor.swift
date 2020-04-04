@@ -10,17 +10,22 @@ protocol ProductListInteractorInterface {
 }
 
 final class ProductListInteractor {
-    private let service: ProductListServiceInterface
+    private let productListService: ProductListServiceInterface
+    private let basketService: BasketServiceInterface
     weak var output: ProductListInteractorOutputInterface?
 
-    init(service: ProductListServiceInterface) {
-        self.service = service
+    init(
+        productListService: ProductListServiceInterface,
+        basketService: BasketServiceInterface
+    ) {
+        self.productListService = productListService
+        self.basketService = basketService
     }
 }
 
 extension ProductListInteractor: ProductListInteractorInterface {
     func getProductList() {
-        service.fetchProductList { [weak self] result in
+        productListService.fetchProductList { [weak self] result in
             switch result {
             case .success(let products):
                 self?.output?.didFetched(products: products)

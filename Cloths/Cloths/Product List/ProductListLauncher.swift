@@ -5,7 +5,10 @@ class ProductListLauncher {
         let view = UIStoryboard.init(name: "Main", bundle: .main)
             .instantiateViewController(identifier: "ProductListViewController") as! ProductListViewController
 
-        let interactor = ProductListInteractor(service:self.productService())
+        let interactor = ProductListInteractor(
+            productListService:self.productService(),
+            basketService: self.basketService()
+        )
         let router = ProductRouter(errorViewFactory: ErrorViewControllerFactory())
         let presenter = ProductListPresenter(
             interactor: interactor,
@@ -24,15 +27,22 @@ class ProductListLauncher {
 
 private extension ProductListLauncher {
     static func productService() -> ProductListService {
+        return ProductListService(
+            decodingService: decodingAuthorizedService()
+        )
+    }
+
+    static func basketService() -> BasketService {
+        BasketService(decodingService: decodingAuthorizedService())
+    }
+
+    static func decodingAuthorizedService() -> DecodingService {
         let authorizedService = AuthorizedService(
             service: NetworkService(with: URLSession.shared), tokenProvider: APIKeyProvider()
         )
-        let decodingService = DecodingService(
+        return DecodingService(
             service: authorizedService,
             decoder: JSONDecoder()
-        )
-        return ProductListService(
-            decodingService: decodingService
         )
     }
 }
