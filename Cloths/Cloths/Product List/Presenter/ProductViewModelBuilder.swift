@@ -32,7 +32,7 @@ private extension ProductViewModelBuilder {
         
         return ProductViewModel(
             name: "Product: " + product.name,
-            price: "Price:" + product.price,
+            price: "Price: " + product.price,
             oldPrice: oldPrice
         )
     }
