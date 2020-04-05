@@ -1,6 +1,6 @@
 import Foundation
 
-typealias ProductListCompletion = (Result<[Product], Error>) -> ()
+typealias ProductListCompletion = (Result<[Product], AuthorizedServiceError>) -> ()
 
 protocol ProductListServiceInterface {
     func fetchProductList(completion:@escaping ProductListCompletion)

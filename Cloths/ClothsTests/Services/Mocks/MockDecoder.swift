@@ -2,7 +2,7 @@ import Foundation
 @testable import Cloths
 
 final class MockDecoder: DecoderInterface {
-    var stubbedResult: Result<Decodable, DummyError>?
+    var stubbedResult: Result<Decodable, DescriptiveError>?
     private(set) var spyData = [Data]()
 
     func decode<T>(_ type: T.Type, from data: Data) throws -> T where T: Decodable {
@@ -14,7 +14,7 @@ final class MockDecoder: DecoderInterface {
         case .success(let model):
             return model as! T
         default:
-            throw DummyError(customDescription: "mock expected result not set")
+            throw DescriptiveError(customDescription: "mock expected result not set")
         }
     }
 }

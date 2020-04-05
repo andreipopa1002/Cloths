@@ -44,7 +44,7 @@ final class AuthorizedServiceTests: XCTestCase {
                 capturedError = error
             }
         }
-        mockedNetworkService.spyCompletion?(.failure(DummyError(customDescription: "network failure")))
+        mockedNetworkService.spyCompletion?(.failure(DescriptiveError(customDescription: "network failure")))
         XCTAssertNotNil(capturedError)
     }
 

@@ -97,7 +97,7 @@ final class BasketServiceTests: XCTestCase {
             }
         }
 
-        let stubbedError = DummyError(customDescription: "product list fetch error")
+        let stubbedError = DescriptiveError(customDescription: "product list fetch error")
         inferedDecodingCompletion()?(.failure(.networkError(stubbedError)))
 
         XCTAssertEqual(capturedError, BasketServiceError.authorizedError(.networkError(stubbedError)))

@@ -51,7 +51,7 @@ final class DecodingServiceTests: XCTestCase {
 
     func test_GivenDecodingFails_WhenFetch_ThenFailure() {
         service.fetch(request: request) { self.inferingResult = $0 }
-        mockedDecoder.stubbedResult = .failure(DummyError(customDescription: "failed to decode"))
+        mockedDecoder.stubbedResult = .failure(DescriptiveError(customDescription: "failed to decode"))
         mockedAuthorizedService.spyCompletion?(.success((Data(), nil)))
         var capturedError: Error?
         if case .networkError(let error) = capturedErrorFromInferredResult() {

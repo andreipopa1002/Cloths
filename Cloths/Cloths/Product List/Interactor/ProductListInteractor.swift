@@ -2,7 +2,8 @@ import Foundation
 
 protocol ProductListInteractorOutputInterface: AnyObject {
     func didFetched(products: [Product])
-    func didFailed(error: Error)
+    func didFailedFetchingProducts(error: AuthorizedServiceError)
+    func didFailedAddToBasket(error: BasketServiceError)
 }
 
 protocol ProductListInteractorInterface {
@@ -31,14 +32,16 @@ extension ProductListInteractor: ProductListInteractorInterface {
             case .success(let products):
                 self?.output?.didFetched(products: products)
             case .failure(let error):
-                self?.output?.didFailed(error: error)
+                self?.output?.didFailedFetchingProducts(error: error)
             }
         }
     }
 
     func addToBasket(productId: Int) {
-        basketService.add(productId: productId) { result in
-            print("result \(result)")
+        basketService.add(productId: productId) { [weak self] result in
+            if case .failure(let error) = result {
+                self?.output?.didFailedAddToBasket(error: error)
+            }
         }
     }
 }

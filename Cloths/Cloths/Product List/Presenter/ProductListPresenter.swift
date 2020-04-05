@@ -37,9 +37,41 @@ extension ProductListPresenter: ProductListInteractorOutputInterface {
         }
     }
 
-    func didFailed(error: Error) {
+    func didFailedFetchingProducts(error: AuthorizedServiceError) {
         DispatchQueue.main.async {
-            self.router.present(error: error)
+            self.router.present(error: self.errorFromAuthorization(error: error))
         }
+    }
+
+    func didFailedAddToBasket(error: BasketServiceError) {
+        let descriptiveError: Error
+        switch error {
+        case .notInStock:
+            descriptiveError = DescriptiveError(customDescription: "Product not in stock")
+        case .noProductWithProductId:
+            descriptiveError = DescriptiveError(customDescription: "This product does not exist")
+        case .unknown:
+            descriptiveError = DescriptiveError(customDescription: "An error occurred")
+        case .authorizedError(let error):
+            descriptiveError = errorFromAuthorization(error: error)
+        }
+
+        DispatchQueue.main.async {
+            self.router.present(error: descriptiveError)
+        }
+    }
+}
+
+private extension ProductListPresenter {
+    func errorFromAuthorization(error: AuthorizedServiceError) -> Error {
+        let descriptiveError: Error
+        switch error {
+        case .unauthorized:
+            descriptiveError = DescriptiveError(customDescription: "Call not authorized")
+        case .networkError(let error):
+            descriptiveError = error
+        }
+
+        return descriptiveError
     }
 }

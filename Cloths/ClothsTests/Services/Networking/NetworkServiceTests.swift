@@ -33,7 +33,7 @@ final class NetworkServiceTests: XCTestCase {
     }
 
     func test_GivenError_WhenFetch_ThenFailureWithError() {
-        let error = DummyError(customDescription: "network failure")
+        let error = DescriptiveError(customDescription: "network failure")
         mockedFramework.stubbedCompletion = (nil, nil, error)
         var capturedError: Error?
 
@@ -95,12 +95,5 @@ private class MockURLSessionDataTask: URLSessionDataTask {
 
     override func resume() {
         spyResumeCallCount += 1
-    }
-}
-
-struct DummyError: LocalizedError {
-    let customDescription: String
-    var errorDescription: String? {
-        return customDescription
     }
 }

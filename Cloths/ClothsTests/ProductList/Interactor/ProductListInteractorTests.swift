@@ -36,10 +36,10 @@ final class ProductListInteractorTests: XCTestCase {
 
     func test_GivenFailure_WhenGetProducts_ThenOutputWithError() {
         interactor.getProductList()
-        mockedProductListService.spyCompletion?(.failure(DummyError(customDescription: "failed to fetch products")))
+        mockedProductListService.spyCompletion?(.failure(.unauthorized))
         XCTAssertEqual(
-            mockedOutput.spyDidFailed.map{ $0.localizedDescription},
-            ["failed to fetch products"])
+            mockedOutput.spyDidFailedFetchingProducts,
+            [.unauthorized])
     }
 
     func test_OutputIsWeak() {
@@ -50,7 +50,16 @@ final class ProductListInteractorTests: XCTestCase {
     }
 
     // MARK: - addToBasket(productId:)
-//    func test_GivenSuccess_WhenAddToBasked_Then
+    func test_WhenAddToBasked_ThenBasketServiceWithId() {
+        interactor.addToBasket(productId: 123)
+        XCTAssertEqual(mockedBasketService.spyAddProductId, [123])
+    }
+
+    func test_GivenFailure_WhenAddToBasket_ThenOutputWithError() {
+        interactor.addToBasket(productId: 123)
+        mockedBasketService.spyAddCompletion?(.failure(.notInStock))
+        XCTAssertEqual(mockedOutput.spyDidFailedAddToBasket, [.notInStock])
+    }
 }
 
 private class MockProductService: ProductListServiceInterface {
@@ -63,14 +72,19 @@ private class MockProductService: ProductListServiceInterface {
 
 private class MockInteractorOutput: ProductListInteractorOutputInterface {
     private(set) var spyDidFetch = [[Product]]()
-    private(set) var spyDidFailed = [Error]()
+    private(set) var spyDidFailedFetchingProducts = [AuthorizedServiceError]()
+    private(set) var spyDidFailedAddToBasket = [BasketServiceError]()
 
     func didFetched(products: [Product]) {
         spyDidFetch.append(products)
     }
 
-    func didFailed(error: Error) {
-        spyDidFailed.append(error)
+    func didFailedFetchingProducts(error: AuthorizedServiceError) {
+        spyDidFailedFetchingProducts.append(error)
+    }
+
+    func didFailedAddToBasket(error: BasketServiceError) {
+        spyDidFailedAddToBasket.append(error)
     }
 }
 

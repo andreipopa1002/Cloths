@@ -71,7 +71,7 @@ final class ProductListServiceTests: XCTestCase {
         }
 
         let completion = mockedDecodingService.spyCompletion as? DecodingServiceCompletion<[Product]>
-        let stubbedError = DummyError(customDescription: "product list fetch error")
+        let stubbedError = DescriptiveError(customDescription: "product list fetch error")
         completion?(.failure(AuthorizedServiceError.networkError(stubbedError)))
 
         XCTAssertTrue(capturedError is AuthorizedServiceError)

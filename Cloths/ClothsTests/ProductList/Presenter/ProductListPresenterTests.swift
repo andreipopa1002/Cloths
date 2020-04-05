@@ -39,14 +39,26 @@ final class ProductListPresenterTests: XCTestCase {
         XCTAssertEqual(mockedInteractor.spyGetProductListCallCount, 1)
     }
 
-    // MARK: - didFailed
-    func test_WhenDidFailed_ThenRouterWithError() {
+    // MARK: - didFailedFetchingProducts
+    func test_GivenNetworkError_WhenDidFailed_ThenRouterWithError() {
         mockedRouter.expectation = expectation(description: "main thread expectation")
-        presenter.didFailed(error: DummyError(customDescription: "did failed"))
+        let error = DescriptiveError(customDescription: "did failed")
+        presenter.didFailedFetchingProducts(error: .networkError(error))
         waitForExpectations(timeout: 0.1) { _ in
             XCTAssertEqual(
                 self.mockedRouter.spyPresentError.map {$0.localizedDescription},
                 ["did failed"]
+            )
+        }
+    }
+
+    func test_GivenUnauthorized_ThenDidFailed_ThenRouterWithUnauthorizedError() {
+        mockedRouter.expectation = expectation(description: "main thread expectation")
+        presenter.didFailedFetchingProducts(error: AuthorizedServiceError.unauthorized)
+        waitForExpectations(timeout: 01) { _ in
+            XCTAssertEqual(
+                self.mockedRouter.spyPresentError.map {$0.localizedDescription},
+                ["Call not authorized"]
             )
         }
     }
@@ -72,6 +84,63 @@ final class ProductListPresenterTests: XCTestCase {
 
         waitForExpectations(timeout: 0.1) { _ in
             XCTAssertEqual(self.mockedView.spyDidFetchProductList, [stubbedViewModel])
+        }
+    }
+
+    // MARK: - didFailedAddToBasket
+    func test_GivenNotInStock_WhenDidFailedAddToBasket_ThenRouterReceiveNotInStock() {
+        mockedRouter.expectation = expectation(description: "main thread expectation")
+        presenter.didFailedAddToBasket(error: .notInStock)
+        waitForExpectations(timeout: 0.1) { _ in
+            XCTAssertEqual(
+                self.mockedRouter.spyPresentError.map {$0.localizedDescription},
+                ["Product not in stock"]
+            )
+        }
+    }
+
+    func test_GivenNoProductWithProductId_WhenDidFailedAddToBasket_ThenRouterReceiveNoProductWithProductId() {
+        mockedRouter.expectation = expectation(description: "main thread expectation")
+        presenter.didFailedAddToBasket(error: .noProductWithProductId)
+        waitForExpectations(timeout: 0.1) { _ in
+            XCTAssertEqual(
+                self.mockedRouter.spyPresentError.map {$0.localizedDescription},
+                ["This product does not exist"]
+            )
+        }
+    }
+
+    func test_GivenUnknownError_WhenDidFailedAddToBasket_ThenRouterReceiveGenericMessage() {
+        mockedRouter.expectation = expectation(description: "main thread expectation")
+        presenter.didFailedAddToBasket(error: .unknown)
+        waitForExpectations(timeout: 0.1) { _ in
+            XCTAssertEqual(
+                self.mockedRouter.spyPresentError.map {$0.localizedDescription},
+                ["An error occurred"]
+            )
+        }
+    }
+
+    func test_GivenUnauthorized_WhenDidFailedAddToBasket_ThenRouterReceiveUnauthorizedError() {
+        mockedRouter.expectation = expectation(description: "main thread expectation")
+        presenter.didFailedAddToBasket(error: .authorizedError(.unauthorized))
+        waitForExpectations(timeout: 0.1) { _ in
+            XCTAssertEqual(
+                self.mockedRouter.spyPresentError.map {$0.localizedDescription},
+                ["Call not authorized"]
+            )
+        }
+    }
+
+    func test_GivenNetworkError_WhenDidFailedAddToBasket_ThenRouterReceiveNetworkError() {
+        let error = DescriptiveError(customDescription: "some error")
+        mockedRouter.expectation = expectation(description: "main thread expectation")
+        presenter.didFailedAddToBasket(error: .authorizedError(.networkError(error)))
+        waitForExpectations(timeout: 0.1) { _ in
+            XCTAssertEqual(
+                self.mockedRouter.spyPresentError.map {$0.localizedDescription},
+                ["some error"]
+            )
         }
     }
 }
