@@ -6,7 +6,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private let appRouter = AppRouter()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        window?.rootViewController = appRouter.navigationController
+        window?.rootViewController = appRouter.mainScreen()
         return true
     }
 }

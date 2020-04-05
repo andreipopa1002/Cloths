@@ -1,7 +1,7 @@
 import UIKit
 
-class ProductListLauncher {
-    static func viewController() -> UIViewController {
+class ProductListFactory {
+    func viewController() -> UIViewController {
         let view = UIStoryboard.init(name: "Main", bundle: .main)
             .instantiateViewController(identifier: "ProductListViewController") as! ProductListViewController
 
@@ -26,18 +26,18 @@ class ProductListLauncher {
     }
 }
 
-private extension ProductListLauncher {
-    static func productService() -> ProductListService {
+private extension ProductListFactory {
+    func productService() -> ProductListService {
         return ProductListService(
             decodingService: decodingAuthorizedService()
         )
     }
 
-    static func basketService() -> BasketService {
+    func basketService() -> BasketService {
         BasketService(decodingService: decodingAuthorizedService())
     }
 
-    static func decodingAuthorizedService() -> DecodingService {
+    func decodingAuthorizedService() -> DecodingService {
         let authorizedService = AuthorizedService(
             service: NetworkService(with: URLSession.shared), tokenProvider: APIKeyProvider()
         )
