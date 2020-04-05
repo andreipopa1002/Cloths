@@ -39,7 +39,7 @@ final class ProductViewModelBuilderTests: XCTestCase {
     }
 
     func test_GivenMultipleUnordoredProducts_WhenViewModel_ThenCat2Has1Product () {
-        let expectedViewModels = [ProductViewModel(name: "Product: az", price: "Price: 1", oldPrice: nil, stockNumber: "0 in stock", addToBasketAction: {})]
+        let expectedViewModels = [ProductViewModel(name: "Product: az", price: "Price: 1", oldPrice: nil, stockNumber: "0 in stock", addToBasketAction: nil)]
 
         XCTAssertEqual(productViewModels(forCategory: "cat2"), expectedViewModels)
     }
@@ -56,7 +56,7 @@ private extension ProductViewModelBuilderTests {
         let cat2ViewModels = viewModels.filter {$0.category == category}
         return cat2ViewModels.flatMap {$0.products}
     }
-    
+
     func unorderedProducts() -> [Product] {
         [Product(id: 1, name: "aa", category: "cat3", price: "1", oldPrice: "2", stock: 1),
          Product(id: 2, name: "ab", category: "cat1", price: "1", oldPrice: "2", stock: 2),

@@ -83,6 +83,8 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="addToBasketButton" destination="fTm-JU-Qjv" id="NhG-CF-b48"/>
+                                            <outlet property="addToWishListButton" destination="rmP-i4-P47" id="9Of-tB-oDm"/>
                                             <outlet property="oldPriceLabel" destination="XS9-vD-l70" id="70Q-qI-3IE"/>
                                             <outlet property="priceLabel" destination="ZCu-xS-mq8" id="COw-2Y-Mwh"/>
                                             <outlet property="productLabel" destination="ep9-3o-s4Z" id="iSM-QP-FDl"/>

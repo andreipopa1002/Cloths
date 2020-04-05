@@ -38,15 +38,20 @@ private extension ProductViewModelBuilder {
         if let price = product.oldPrice {
             oldPrice = "Old price: " + price
         }
+
+        var addToBasketAction: (() -> ())?
+        if product.stock > 0 {
+            addToBasketAction = { [weak self] in
+                self?.interactor.addToBasket(productId: product.id)
+            }
+        }
         
         return ProductViewModel(
             name: "Product: " + product.name,
             price: "Price: " + product.price,
             oldPrice: oldPrice,
             stockNumber: "\(product.stock) in stock",
-            addToBasketAction: { [weak self] in
-                self?.interactor.addToBasket(productId: product.id)
-            }
+            addToBasketAction: addToBasketAction
         )
     }
 }
