@@ -5,6 +5,7 @@ final class ProductListInteractorTests: XCTestCase {
     private var interactor: ProductListInteractor!
     private var mockedProductListService: MockProductService!
     private var mockedBasketService: MockBasketService!
+    private var mockedWishListService: MockWishListService!
     private var mockedOutput: MockInteractorOutput!
 
     override func setUp() {
@@ -12,16 +13,20 @@ final class ProductListInteractorTests: XCTestCase {
 
         mockedProductListService = MockProductService()
         mockedBasketService = MockBasketService()
+        mockedWishListService = MockWishListService()
         mockedOutput = MockInteractorOutput()
         interactor = ProductListInteractor(
             productListService: mockedProductListService,
-            basketService: mockedBasketService)
+            basketService: mockedBasketService,
+            wishListService: mockedWishListService
+        )
         interactor.output = mockedOutput
     }
 
     override func tearDown() {
         mockedProductListService = nil
         mockedBasketService = nil
+        mockedWishListService = nil
         interactor = nil
 
         super.tearDown()
@@ -60,6 +65,12 @@ final class ProductListInteractorTests: XCTestCase {
         mockedBasketService.spyAddCompletion?(.failure(.notInStock))
         XCTAssertEqual(mockedOutput.spyDidFailedAddToBasket, [.notInStock])
     }
+
+    // MARK: - addToWishList(productId:)
+    func test_WhenAddToWishList_ThenWishListServiceAdd() {
+        interactor.addToWishList(productId: 123)
+        XCTAssertEqual(mockedWishListService.spyAddToWishList, [123])
+    }
 }
 
 private class MockProductService: ProductListServiceInterface {
@@ -95,5 +106,18 @@ private class MockBasketService: BasketServiceInterface {
     func add(productId: Int, completion: @escaping BasketAddCompletion) {
         spyAddProductId.append(productId)
         spyAddCompletion = completion
+    }
+}
+
+private class MockWishListService: WishListServiceInterface {
+    private(set) var spyAddToWishList = [Int]()
+    var stubbedProductIds: [Int] = []
+
+    func addToWishList(productId: Int) {
+        spyAddToWishList.append(productId)
+    }
+
+    func productIdsFromWishList() -> [Int] {
+        return stubbedProductIds
     }
 }

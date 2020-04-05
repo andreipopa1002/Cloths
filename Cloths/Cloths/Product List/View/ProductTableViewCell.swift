@@ -3,11 +3,13 @@ import UIKit
 
 struct ProductViewModel: Equatable {
     static func == (lhs: ProductViewModel, rhs: ProductViewModel) -> Bool {
-        let closureExistance = (lhs.addToBasketAction == nil && rhs.addToBasketAction == nil) || (lhs.addToBasketAction != nil && rhs.addToBasketAction != nil)
+        let addToBasketActionExistence = (lhs.addToBasketAction == nil && rhs.addToBasketAction == nil) || (lhs.addToBasketAction != nil && rhs.addToBasketAction != nil)
+        let addToWishListActionExistence = (lhs.addToWishListAction == nil &&  rhs.addToWishListAction == nil) || (lhs.addToWishListAction != nil && rhs.addToWishListAction != nil)
         return lhs.name == rhs.name &&
             lhs.oldPrice == rhs.oldPrice &&
             lhs.price == rhs.price &&
-            lhs.stockNumber == rhs.stockNumber && closureExistance
+            lhs.stockNumber == rhs.stockNumber &&
+            addToBasketActionExistence && addToWishListActionExistence
     }
 
     let name: String
@@ -15,6 +17,7 @@ struct ProductViewModel: Equatable {
     let oldPrice: String?
     let stockNumber: String
     let addToBasketAction: (() -> ())?
+    let addToWishListAction: (() -> ())?
 }
 
 final class ProductTableViewCell: UITableViewCell {
@@ -33,8 +36,9 @@ final class ProductTableViewCell: UITableViewCell {
         priceLabel.text = viewModel.price
         oldPriceLabel.text = viewModel.oldPrice
         stockLabel.text = viewModel.stockNumber
-        addToBasketButton.isHidden = viewModel.addToBasketAction == nil ? true : false
         addToBasketListAction = viewModel.addToBasketAction
+        addToBasketButton.isHidden = viewModel.addToBasketAction == nil ? true : false
+        addToWishListAction = viewModel.addToWishListAction
     }
     @IBAction func didTapAddToWishListButton(_ sender: Any) {
     }

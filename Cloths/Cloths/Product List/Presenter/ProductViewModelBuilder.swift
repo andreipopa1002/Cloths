@@ -51,7 +51,10 @@ private extension ProductViewModelBuilder {
             price: "Price: " + product.price,
             oldPrice: oldPrice,
             stockNumber: "\(product.stock) in stock",
-            addToBasketAction: addToBasketAction
+            addToBasketAction: addToBasketAction,
+            addToWishListAction: { [weak self] in
+                self?.interactor.addToWishList(productId: product.id)
+            }
         )
     }
 }

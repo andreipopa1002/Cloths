@@ -7,7 +7,8 @@ class ProductListLauncher {
 
         let interactor = ProductListInteractor(
             productListService:self.productService(),
-            basketService: self.basketService()
+            basketService: self.basketService(),
+            wishListService: WishListService(simplePersistence: UserDefaults.standard)
         )
         let router = ProductRouter(errorViewFactory: ErrorViewControllerFactory())
         let presenter = ProductListPresenter(

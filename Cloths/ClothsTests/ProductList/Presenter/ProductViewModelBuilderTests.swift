@@ -31,31 +31,36 @@ final class ProductViewModelBuilderTests: XCTestCase {
 
     func test_GivenMultipleUnordoredProducts_WhenViewModel_ThenCat1Has2Products() {
         let expectedViewModels = [
-            ProductViewModel(name: "Product: ab", price: "Price: 1", oldPrice: "Old price: 2", stockNumber: "2 in stock", addToBasketAction: {}),
-            ProductViewModel(name: "Product: ab2", price: "Price: 3", oldPrice: nil, stockNumber: "2 in stock", addToBasketAction: {})
+            ProductViewModel(name: "Product: ab", price: "Price: 1", oldPrice: "Old price: 2", stockNumber: "2 in stock", addToBasketAction: {}, addToWishListAction: {}),
+            ProductViewModel(name: "Product: ab2", price: "Price: 3", oldPrice: nil, stockNumber: "2 in stock", addToBasketAction: {}, addToWishListAction: {})
             ]
 
         XCTAssertEqual(productViewModels(forCategory: "cat1"), expectedViewModels)
     }
 
     func test_GivenMultipleUnordoredProducts_WhenViewModel_ThenCat2Has1Product () {
-        let expectedViewModels = [ProductViewModel(name: "Product: az", price: "Price: 1", oldPrice: nil, stockNumber: "0 in stock", addToBasketAction: nil)]
+        let expectedViewModels = [ProductViewModel(name: "Product: az", price: "Price: 1", oldPrice: nil, stockNumber: "0 in stock", addToBasketAction: nil, addToWishListAction: {})]
 
         XCTAssertEqual(productViewModels(forCategory: "cat2"), expectedViewModels)
     }
 
     func test_GivenMultipleUnordoredProducts_WhenViewModel_ThenCat3Has1Product () {
-        let expectedViewModels = [ProductViewModel(name: "Product: aa", price: "Price: 1", oldPrice: "Old price: 2", stockNumber: "1 in stock", addToBasketAction: {})]
+        let expectedViewModels = [ProductViewModel(name: "Product: aa", price: "Price: 1", oldPrice: "Old price: 2", stockNumber: "1 in stock", addToBasketAction: {}, addToWishListAction: {})]
         XCTAssertEqual(productViewModels(forCategory: "cat3"), expectedViewModels)
     }
 
-    func test_GivenSingleProduct_WhenViewModel_ThenClosureCallsInteractor() {
+    func test_GivenSingleProduct_WhenViewModel_ThenAddToBasketClosureCallsInteractor() {
         let product = Product(id: 12, name: "name", category: "cat", price: "11", oldPrice: nil, stock: 1)
         let viewModels = builder.viewModel(from: [product])
-
         viewModels[0].products[0].addToBasketAction?()
-
         XCTAssertEqual(mockedInteractor.spyAddToBasketId, [12])
+    }
+
+    func test_GivenSingleProduct_WhenViewModel_ThenAddToWishListClosureCallsInteractor() {
+        let product = Product(id: 2, name: "name", category: "cat", price: "122", oldPrice: nil, stock: 1)
+        let viewModels = builder.viewModel(from: [product])
+        viewModels[0].products[0].addToWishListAction?()
+        XCTAssertEqual(mockedInteractor.spyAddToWishList, [2])
     }
 }
 

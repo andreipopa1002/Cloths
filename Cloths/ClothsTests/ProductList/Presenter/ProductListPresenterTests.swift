@@ -148,6 +148,7 @@ final class ProductListPresenterTests: XCTestCase {
 class MockProductListInteractor: ProductListInteractorInterface {
     private(set) var spyGetProductListCallCount = 0
     private(set) var spyAddToBasketId = [Int]()
+    private(set) var spyAddToWishList = [Int]()
 
     func getProductList() {
         spyGetProductListCallCount += 1
@@ -155,6 +156,10 @@ class MockProductListInteractor: ProductListInteractorInterface {
 
     func addToBasket(productId: Int) {
         spyAddToBasketId.append(productId)
+    }
+
+    func addToWishList(productId: Int) {
+        spyAddToWishList.append(productId)
     }
 }
 
