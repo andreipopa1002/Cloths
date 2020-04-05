@@ -48,6 +48,15 @@ final class ProductViewModelBuilderTests: XCTestCase {
         let expectedViewModels = [ProductViewModel(name: "Product: aa", price: "Price: 1", oldPrice: "Old price: 2", stockNumber: "1 in stock", addToBasketAction: {})]
         XCTAssertEqual(productViewModels(forCategory: "cat3"), expectedViewModels)
     }
+
+    func test_GivenSingleProduct_WhenViewModel_ThenClosureCallsInteractor() {
+        let product = Product(id: 12, name: "name", category: "cat", price: "11", oldPrice: nil, stock: 1)
+        let viewModels = builder.viewModel(from: [product])
+
+        viewModels[0].products[0].addToBasketAction?()
+
+        XCTAssertEqual(mockedInteractor.spyAddToBasketId, [12])
+    }
 }
 
 private extension ProductViewModelBuilderTests {
