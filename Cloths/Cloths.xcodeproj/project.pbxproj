@@ -44,6 +44,8 @@
 		25C329DD2438A90D00B315B3 /* ProductViewModelBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C329DC2438A90D00B315B3 /* ProductViewModelBuilderTests.swift */; };
 		25C329E02438B72D00B315B3 /* BasketServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C329DF2438B72D00B315B3 /* BasketServiceTests.swift */; };
 		25F2D9F9243A3C6E00119C63 /* DescriptiveError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F2D9F8243A3C6E00119C63 /* DescriptiveError.swift */; };
+		25F2D9FC243A4D6200119C63 /* WishListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F2D9FB243A4D6200119C63 /* WishListService.swift */; };
+		25F2D9FF243A4D8400119C63 /* WishListServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F2D9FE243A4D8400119C63 /* WishListServiceTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,6 +100,8 @@
 		25C329DC2438A90D00B315B3 /* ProductViewModelBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductViewModelBuilderTests.swift; sourceTree = "<group>"; };
 		25C329DF2438B72D00B315B3 /* BasketServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasketServiceTests.swift; sourceTree = "<group>"; };
 		25F2D9F8243A3C6E00119C63 /* DescriptiveError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptiveError.swift; sourceTree = "<group>"; };
+		25F2D9FB243A4D6200119C63 /* WishListService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WishListService.swift; sourceTree = "<group>"; };
+		25F2D9FE243A4D8400119C63 /* WishListServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WishListServiceTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -261,6 +265,7 @@
 		25C328572436603600B315B3 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				25F2D9FA243A4D3100119C63 /* WishListService */,
 				25C329D92438001700B315B3 /* Basket */,
 				25C329D72437FFE200B315B3 /* ProductList */,
 			);
@@ -280,6 +285,7 @@
 		25C3285B2436651500B315B3 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				25F2D9FD243A4D6800119C63 /* WishListService */,
 				25C329DE2438B70C00B315B3 /* Basket */,
 				25C329D82437FFFF00B315B3 /* ProductList */,
 			);
@@ -372,6 +378,22 @@
 				25C329DF2438B72D00B315B3 /* BasketServiceTests.swift */,
 			);
 			path = Basket;
+			sourceTree = "<group>";
+		};
+		25F2D9FA243A4D3100119C63 /* WishListService */ = {
+			isa = PBXGroup;
+			children = (
+				25F2D9FB243A4D6200119C63 /* WishListService.swift */,
+			);
+			path = WishListService;
+			sourceTree = "<group>";
+		};
+		25F2D9FD243A4D6800119C63 /* WishListService */ = {
+			isa = PBXGroup;
+			children = (
+				25F2D9FE243A4D8400119C63 /* WishListServiceTests.swift */,
+			);
+			path = WishListService;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -479,6 +501,7 @@
 				25C329D22437E33200B315B3 /* ProductListLauncher.swift in Sources */,
 				25C329CC2437B20000B315B3 /* ProductListViewController.swift in Sources */,
 				25C32840243658F300B315B3 /* NetworkService.swift in Sources */,
+				25F2D9FC243A4D6200119C63 /* WishListService.swift in Sources */,
 				25C3286E243688DF00B315B3 /* ProductListPresenter.swift in Sources */,
 				25C329D02437C58B00B315B3 /* ProductViewModelBuilder.swift in Sources */,
 				25C32842243658F300B315B3 /* Date+fractionalSeconds.swift in Sources */,
@@ -507,6 +530,7 @@
 				25C3286B24367DE700B315B3 /* ProductListInteractorTests.swift in Sources */,
 				25C3284C2436592E00B315B3 /* DecodingServiceTests.swift in Sources */,
 				25C3285D2436653200B315B3 /* ProductListServiceTests.swift in Sources */,
+				25F2D9FF243A4D8400119C63 /* WishListServiceTests.swift in Sources */,
 				25C3285324365A3500B315B3 /* MockNetworkClient.swift in Sources */,
 				25C3284B2436592E00B315B3 /* AuthorizedServiceTests.swift in Sources */,
 				25C3285224365A3500B315B3 /* MockDecodingService.swift in Sources */,
