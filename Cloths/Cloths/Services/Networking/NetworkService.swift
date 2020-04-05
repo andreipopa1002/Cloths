@@ -1,6 +1,6 @@
 import Foundation
 
-typealias NetworkResult = Result<Data?, Error>
+typealias NetworkResult = Result<(data: Data?, response: URLResponse?), Error>
 typealias NetworkServiceCompletion = (NetworkResult) -> ()
 
 protocol NetworkServiceInterface {
@@ -18,11 +18,11 @@ final class NetworkService {
 extension NetworkService: NetworkServiceInterface {
 
     func fetch(request: URLRequest, completion:@escaping NetworkServiceCompletion) {
-        let dataTask = framework.dataTask(with: request) { data, _, error in
+        let dataTask = framework.dataTask(with: request) { data, response, error in
             if let error = error {
                 completion(.failure(error))
             } else  {
-                completion(.success(data))
+                completion(.success((data, response)))
             }
         }
         dataTask.resume()

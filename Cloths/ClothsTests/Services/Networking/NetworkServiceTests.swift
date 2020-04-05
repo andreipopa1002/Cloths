@@ -53,11 +53,25 @@ final class NetworkServiceTests: XCTestCase {
 
         service.fetch(request: request) { result in
             if case .success(let resultData) = result {
-                capturedData = resultData
+                capturedData = resultData.data
             }
         }
 
         XCTAssertEqual(capturedData, stubbedData)
+    }
+
+    func test_GivenData_WhenFetch_ThenResultWithURLResponse() {
+        let stubbedUrlResponse = URLResponse(url: URL(string: "www.g.g")!, mimeType: nil, expectedContentLength: 1, textEncodingName: nil)
+        mockedFramework.stubbedCompletion = (nil, stubbedUrlResponse, nil)
+        var capturedURLResponse: URLResponse?
+
+        service.fetch(request: request) { result in
+            if case .success(let tuple) = result {
+                capturedURLResponse = tuple.response
+            }
+        }
+
+        XCTAssertEqual(capturedURLResponse, stubbedUrlResponse)
     }
 }
 

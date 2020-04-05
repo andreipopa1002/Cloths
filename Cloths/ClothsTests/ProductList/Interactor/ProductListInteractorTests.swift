@@ -27,6 +27,7 @@ final class ProductListInteractorTests: XCTestCase {
         super.tearDown()
     }
 
+    // MARK: - getProductList
     func test_GivenSuccess_WhenGetProducts_ThenOutputWithProducts() {
         interactor.getProductList()
         mockedProductListService.spyCompletion?(.success([.stub]))
@@ -47,6 +48,9 @@ final class ProductListInteractorTests: XCTestCase {
         output = nil
         XCTAssertNil(interactor.output)
     }
+
+    // MARK: - addToBasket(productId:)
+//    func test_GivenSuccess_WhenAddToBasked_Then
 }
 
 private class MockProductService: ProductListServiceInterface {

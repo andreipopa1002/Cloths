@@ -19,6 +19,19 @@ extension ProductListService: ProductListServiceInterface {
         var request = URLRequest(url: URL(string: Environment.baseUrlString + "/products")!)
         request.addValue("application/json", forHTTPHeaderField: "Accept")
 
-        decodingService.fetch(request: request,completion: completion)
+        fetchProductList(request: request) { result in
+            switch result {
+            case .success(let tuple):
+                completion(.success(tuple.model ?? []))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+}
+
+private extension ProductListService {
+    func fetchProductList(request: URLRequest, completion: @escaping DecodingServiceCompletion<[Product]>) {
+        decodingService.fetch(request: request, completion: completion)
     }
 }

@@ -7,6 +7,7 @@ protocol ProductListInteractorOutputInterface: AnyObject {
 
 protocol ProductListInteractorInterface {
     func getProductList()
+    func addToBasket(productId: Int)
 }
 
 final class ProductListInteractor {
@@ -32,6 +33,12 @@ extension ProductListInteractor: ProductListInteractorInterface {
             case .failure(let error):
                 self?.output?.didFailed(error: error)
             }
+        }
+    }
+
+    func addToBasket(productId: Int) {
+        basketService.add(productId: productId) { result in
+            print("result \(result)")
         }
     }
 }

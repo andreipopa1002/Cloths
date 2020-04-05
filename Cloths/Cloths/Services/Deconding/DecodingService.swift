@@ -1,22 +1,17 @@
 import Foundation
 
+typealias DecodingResult<DecodableModel> = Result<(model: DecodableModel?, response: URLResponse?), AuthorizedServiceError>
+typealias DecodingServiceCompletion<DecodableModel> = (DecodingResult<DecodableModel>) -> ()
 protocol DecodingServiceInterface {
-    func fetch<DecodableModel: Decodable>(request: URLRequest, completion: @escaping (Result<DecodableModel, Error>) -> ())
-}
-
-struct NoDataError: LocalizedError {
-    let customDescription: String
-    var errorDescription: String? {
-        return customDescription
-    }
+    func fetch<DecodableModel: Decodable>(request: URLRequest, completion: @escaping DecodingServiceCompletion<DecodableModel>)
 }
 
 final class DecodingService {
-    private let service: NetworkServiceInterface
+    private let service: AuthorizedServiceInterface
     private let decoder: DecoderInterface
 
     init(
-        service: NetworkServiceInterface,
+        service: AuthorizedServiceInterface,
         decoder: DecoderInterface
     ) {
         self.service = service
@@ -26,7 +21,7 @@ final class DecodingService {
 }
 
 extension DecodingService: DecodingServiceInterface {
-    func fetch<DecodableModel>(request: URLRequest, completion:@escaping (Result<DecodableModel, Error>) -> ()) where DecodableModel : Decodable {
+    func fetch<DecodableModel>(request: URLRequest, completion:@escaping DecodingServiceCompletion<DecodableModel>) where DecodableModel : Decodable {
         service.fetch(request: request) { [weak self] result in
             self?.handleNetworkResult(result: result, completion: completion)
         }
@@ -34,25 +29,25 @@ extension DecodingService: DecodingServiceInterface {
 }
 
 private extension DecodingService {
-    func handleNetworkResult<DecodableModel>(result: NetworkResult, completion: @escaping (Result<DecodableModel, Error>) -> ()) where DecodableModel: Decodable {
+    func handleNetworkResult<DecodableModel>(result: AuthorizedResult, completion: @escaping DecodingServiceCompletion<DecodableModel>) where DecodableModel: Decodable {
         switch result {
-        case .success(let data):
-            guard let data = data else {
-                return completion(.failure(NoDataError(customDescription: "no data received")))
+        case .success(let tuple):
+            guard let data = tuple.data else {
+                return completion(.success((model: nil, response: tuple.response)))
             }
 
-            decodeModel(fromData: data, completion: completion)
+            decodeModel(fromData: data, response: tuple.response, completion: completion)
         case .failure(let error):
             completion(.failure(error))
         }
     }
 
-    func decodeModel<DecodableModel>(fromData data: Data, completion: @escaping (Result<DecodableModel, Error>) -> ()) where DecodableModel : Decodable {
+    func decodeModel<DecodableModel>(fromData data: Data, response: URLResponse?, completion: @escaping DecodingServiceCompletion<DecodableModel>) where DecodableModel : Decodable {
         do {
             let model = try self.decoder.decode(DecodableModel.self, from: data)
-            completion(.success(model))
+            completion(.success((model: model, response: response)))
         } catch  {
-            completion(.failure(error))
+            completion(.failure(.networkError(error)))
         }
     }
 }

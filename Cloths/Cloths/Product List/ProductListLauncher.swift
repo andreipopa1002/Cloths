@@ -13,7 +13,7 @@ class ProductListLauncher {
         let presenter = ProductListPresenter(
             interactor: interactor,
             router: router,
-            viewModelBuilder: ProductViewModelBuilder()
+            viewModelBuilder: ProductViewModelBuilder(interactor: interactor)
         )
 
         view.presenter = presenter

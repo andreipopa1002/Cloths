@@ -34,7 +34,7 @@ final class ProductListServiceTests: XCTestCase {
         XCTAssertEqual(mockedDecodingService.spyRequest.map {$0.url}, [expectedUrl])
     }
 
-    func test_GivenSuccess_WhenFetchProductList_ThenResultWithSameProduct() {
+    func test_GivenSuccessWithProducts_WhenFetchProductList_ThenResultWithSameProduct() {
         var capturedProducts: [Product]?
         service.fetchProductList { result in
             if case .success(let products) = result {
@@ -42,24 +42,38 @@ final class ProductListServiceTests: XCTestCase {
             }
         }
 
-       let completion = mockedDecodingService.spyCompletion as? ProductListCompletion
-        completion?(.success([Product.stub]))
+        let completion = mockedDecodingService.spyCompletion as? DecodingServiceCompletion<[Product]>
+        completion?(.success(([Product.stub], nil)))
 
         XCTAssertEqual(capturedProducts, [Product.stub])
+    }
+
+    func test_GivenSuccessWithNotProducts_WhenFetchProductList_ThenResultWithEmptyArray() {
+        var capturedProducts: [Product]?
+        service.fetchProductList { result in
+            if case .success(let products) = result {
+                capturedProducts = products
+            }
+        }
+
+        let completion = mockedDecodingService.spyCompletion as? DecodingServiceCompletion<[Product]>
+        completion?(.success((nil, nil)))
+
+        XCTAssertEqual(capturedProducts?.isEmpty, true)
     }
 
     func test_GivenFailure_WhenFetchProductList_ThenResultWithSameError() {
         var capturedError: Error?
         service.fetchProductList { result in
-            if case .failure(let error) = result {
+            if case .failure(let error) = result  {
                 capturedError = error
             }
         }
 
-        let completion = mockedDecodingService.spyCompletion as? ProductListCompletion
+        let completion = mockedDecodingService.spyCompletion as? DecodingServiceCompletion<[Product]>
         let stubbedError = DummyError(customDescription: "product list fetch error")
-        completion?(.failure(stubbedError))
+        completion?(.failure(AuthorizedServiceError.networkError(stubbedError)))
 
-        XCTAssertEqual(capturedError?.localizedDescription, stubbedError.localizedDescription)
+        XCTAssertTrue(capturedError is AuthorizedServiceError)
     }
 }

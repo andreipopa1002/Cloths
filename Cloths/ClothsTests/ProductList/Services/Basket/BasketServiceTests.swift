@@ -27,7 +27,7 @@ final class BasketServiceTests: XCTestCase {
     }
 
     func test_WhenAddProductId_ThenRequestHasUrl() {
-        let expectedUrlString =  "https://2klqdzs603.execute-api.eu-west-2.amazonaws.com/cloths/cart?product%20ID=123"
+        let expectedUrlString =  "https://2klqdzs603.execute-api.eu-west-2.amazonaws.com/cloths/cart?productId=123"
         service.add(productId: 123) { _ in }
 
         XCTAssertEqual(
@@ -36,33 +36,86 @@ final class BasketServiceTests: XCTestCase {
         )
     }
 
-    func test_GivenSuccess_WhenAddProductId_ThenResultWithMessage() {
-        var capturedAddBasketResponse: BasketAddResponse?
+    func test_GivenSuccess_WhenAddProductId_ThenSuccess() {
+        var capturedAddBasketResult: BasketAddResult?
         service.add(productId: 0) { result in
-            if case .success(let addBasketResponse) = result {
-                capturedAddBasketResponse = addBasketResponse
-            }
+            capturedAddBasketResult = result
         }
 
-        let completion = mockedDecodingService.spyCompletion as? BasketAddCompletion
-        completion?(.success(BasketAddResponse.stub))
+        inferedDecodingCompletion()?(.success((BasketAddResponse.stub, urlResponse(statusCode: 201))))
 
-        XCTAssertEqual(capturedAddBasketResponse, BasketAddResponse.stub)
+        guard case .success(()) = capturedAddBasketResult else {
+            return XCTFail("expected success")
+        }
     }
 
-    func test_GivenFailure_WhenAddProductId_ThenResultWithSameError() {
-        var capturedError: Error?
+    func test_Given403_WhenAddProductId_ThenFailureNotInStock() {
+        var capturedError: BasketServiceError?
         service.add(productId: 0) { result in
             if case .failure(let error) = result {
                 capturedError = error
             }
         }
 
-        let completion = mockedDecodingService.spyCompletion as? BasketAddCompletion
-        let stubbedError = DummyError(customDescription: "product list fetch error")
-        completion?(.failure(stubbedError))
+        inferedDecodingCompletion()?(.success((nil, urlResponse(statusCode: 403))))
 
-        XCTAssertEqual(capturedError?.localizedDescription, stubbedError.localizedDescription)
+        XCTAssertEqual(capturedError, .notInStock)
+    }
+
+    func test_Given404_WhenAddProductId_ThenFailureNoProductWithId() {
+        var capturedError: BasketServiceError?
+        service.add(productId: 0) { result in
+            if case .failure(let error) = result {
+                capturedError = error
+            }
+        }
+
+        inferedDecodingCompletion()?(.success((nil, urlResponse(statusCode: 404))))
+
+        XCTAssertEqual(capturedError, .noProductWithProductId)
+    }
+
+    func test_GivenRandomStatusCode_WhenAddProductId_ThenFailureUnknown() {
+        var capturedError: BasketServiceError?
+        service.add(productId: 0) { result in
+            if case .failure(let error) = result {
+                capturedError = error
+            }
+        }
+
+        inferedDecodingCompletion()?(.success((nil, urlResponse(statusCode: 123))))
+
+        XCTAssertEqual(capturedError, .unknown)
+
+    }
+
+    func test_GivenAuthorizedError_WhenAddProductId_ThenResultWithSameError() {
+        var capturedError: BasketServiceError?
+        service.add(productId: 0) { result in
+            if case .failure(let error) = result {
+                capturedError = error
+            }
+        }
+
+        let stubbedError = DummyError(customDescription: "product list fetch error")
+        inferedDecodingCompletion()?(.failure(.networkError(stubbedError)))
+
+        XCTAssertEqual(capturedError, BasketServiceError.authorizedError(.networkError(stubbedError)))
+    }
+}
+
+private extension BasketServiceTests {
+    func inferedDecodingCompletion() -> DecodingServiceCompletion<BasketAddResponse>? {
+        mockedDecodingService.spyCompletion as? DecodingServiceCompletion<BasketAddResponse>
+    }
+
+    func urlResponse(statusCode: Int) -> HTTPURLResponse {
+        HTTPURLResponse(
+            url: URL(string: "www.g.g")!,
+            statusCode: statusCode,
+            httpVersion: nil,
+            headerFields: nil
+        )!
     }
 }
 

@@ -3,14 +3,17 @@ import XCTest
 
 final class ProductViewModelBuilderTests: XCTestCase {
     private var builder: ProductViewModelBuilder!
+    private var mockedInteractor: MockProductListInteractor!
 
     override func setUp() {
         super.setUp()
 
-        builder = ProductViewModelBuilder()
+        mockedInteractor = MockProductListInteractor()
+        builder = ProductViewModelBuilder(interactor: mockedInteractor)
     }
 
     override func tearDown() {
+        mockedInteractor = nil
         builder = nil
 
         super.tearDown()
@@ -28,28 +31,22 @@ final class ProductViewModelBuilderTests: XCTestCase {
 
     func test_GivenMultipleUnordoredProducts_WhenViewModel_ThenCat1Has2Products() {
         let expectedViewModels = [
-            ProductViewModel(name: "Product: ab", price: "Price: 1", oldPrice: "Old price: 2", addToBasketAction: {}),
-            ProductViewModel(name: "Product: ab2", price: "Price: 3", oldPrice: nil, addToBasketAction: {})
+            ProductViewModel(name: "Product: ab", price: "Price: 1", oldPrice: "Old price: 2", stockNumber: "2 in stock", addToBasketAction: {}),
+            ProductViewModel(name: "Product: ab2", price: "Price: 3", oldPrice: nil, stockNumber: "2 in stock", addToBasketAction: {})
             ]
 
         XCTAssertEqual(productViewModels(forCategory: "cat1"), expectedViewModels)
     }
 
     func test_GivenMultipleUnordoredProducts_WhenViewModel_ThenCat2Has1Product () {
-        let expectedViewModels = [ProductViewModel(name: "Product: az", price: "Price: 1", oldPrice: nil, addToBasketAction: {})]
+        let expectedViewModels = [ProductViewModel(name: "Product: az", price: "Price: 1", oldPrice: nil, stockNumber: "0 in stock", addToBasketAction: {})]
 
         XCTAssertEqual(productViewModels(forCategory: "cat2"), expectedViewModels)
     }
 
     func test_GivenMultipleUnordoredProducts_WhenViewModel_ThenCat3Has1Product () {
-        let expectedViewModels = [ProductViewModel(name: "Product: aa", price: "Price: 1", oldPrice: "Old price: 2", addToBasketAction: {})]
+        let expectedViewModels = [ProductViewModel(name: "Product: aa", price: "Price: 1", oldPrice: "Old price: 2", stockNumber: "1 in stock", addToBasketAction: {})]
         XCTAssertEqual(productViewModels(forCategory: "cat3"), expectedViewModels)
-    }
-
-    func test_GivenMultipleUnorderedProducts_WhenViewModel_ThenViewModelsOrderedByCategory() {
-        let viewModels = builder.viewModel(from: unorderedProducts())
-        XCTAssertEqual(viewModels, expectedOrderedViewModels())
-
     }
 }
 
@@ -59,26 +56,7 @@ private extension ProductViewModelBuilderTests {
         let cat2ViewModels = viewModels.filter {$0.category == category}
         return cat2ViewModels.flatMap {$0.products}
     }
-
-    func expectedOrderedViewModels() -> [ProductListViewModel] {
-        [ProductListViewModel(
-            category: "cat1",
-            products: [
-                ProductViewModel(name: "Product: ab", price: "Price: 1", oldPrice: "Old price: 2", addToBasketAction: {}),
-                ProductViewModel(name: "Product: ab2", price: "Price: 3", oldPrice: nil, addToBasketAction: {})
-                ]
-            ),
-         ProductListViewModel(
-            category: "cat2",
-            products: [ProductViewModel(name: "Product: az", price: "Price: 1", oldPrice: nil, addToBasketAction: {})]
-            ),
-         ProductListViewModel(
-            category: "cat3",
-            products: [ProductViewModel(name: "Product: aa", price: "Price: 1", oldPrice: "Old price: 2", addToBasketAction: {})]
-            )
-        ]
-    }
-
+    
     func unorderedProducts() -> [Product] {
         [Product(id: 1, name: "aa", category: "cat3", price: "1", oldPrice: "2", stock: 1),
          Product(id: 2, name: "ab", category: "cat1", price: "1", oldPrice: "2", stock: 2),
