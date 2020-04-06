@@ -84,7 +84,7 @@ private class MockProductService: ProductListServiceInterface {
 private class MockInteractorOutput: ProductListInteractorOutputInterface {
     private(set) var spyDidFetch = [[Product]]()
     private(set) var spyDidFailedFetchingProducts = [AuthorizedServiceError]()
-    private(set) var spyDidFailedAddToBasket = [BasketServiceError]()
+    private(set) var spyDidFailedAddToBasket = [BasketAddError]()
 
     func didFetched(products: [Product]) {
         spyDidFetch.append(products)
@@ -94,7 +94,7 @@ private class MockInteractorOutput: ProductListInteractorOutputInterface {
         spyDidFailedFetchingProducts.append(error)
     }
 
-    func didFailedAddToBasket(error: BasketServiceError) {
+    func didFailedAddToBasket(error: BasketAddError) {
         spyDidFailedAddToBasket.append(error)
     }
 }
@@ -102,16 +102,22 @@ private class MockInteractorOutput: ProductListInteractorOutputInterface {
 private class MockBasketService: BasketServiceInterface {
     private(set) var spyAddProductId = [Int]()
     private(set) var spyAddCompletion: BasketAddCompletion?
+    private(set) var spyGetBasketCompletion: BasketGetCompletion?
 
     func add(productId: Int, completion: @escaping BasketAddCompletion) {
         spyAddProductId.append(productId)
         spyAddCompletion = completion
+    }
+
+    func getBasket(completion: @escaping BasketGetCompletion) {
+        spyGetBasketCompletion = completion
     }
 }
 
 private class MockWishListService: WishListServiceInterface {
     private(set) var spyAddToWishList = [Int]()
     var stubbedProductIds: [Int] = []
+    private(set) var spyRemoveFromWishList = [Int]()
 
     func addToWishList(productId: Int) {
         spyAddToWishList.append(productId)
@@ -119,5 +125,9 @@ private class MockWishListService: WishListServiceInterface {
 
     func productIdsFromWishList() -> [Int] {
         return stubbedProductIds
+    }
+
+    func removeFromWishList(productId: Int) {
+        spyRemoveFromWishList.append(productId)
     }
 }

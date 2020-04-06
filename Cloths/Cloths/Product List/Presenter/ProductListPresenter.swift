@@ -43,7 +43,7 @@ extension ProductListPresenter: ProductListInteractorOutputInterface {
         }
     }
 
-    func didFailedAddToBasket(error: BasketServiceError) {
+    func didFailedAddToBasket(error: BasketAddError) {
         let descriptiveError: Error
         switch error {
         case .notInStock:

@@ -39,8 +39,10 @@ final class ProductTableViewCell: UITableViewCell {
         addToBasketListAction = viewModel.addToBasketAction
         addToBasketButton.isHidden = viewModel.addToBasketAction == nil ? true : false
         addToWishListAction = viewModel.addToWishListAction
+        addToWishListButton.isHidden = viewModel.addToWishListAction == nil ? true: false
     }
     @IBAction func didTapAddToWishListButton(_ sender: Any) {
+        addToWishListAction?()
     }
     @IBAction func didTapAddToBasketButton(_ sender: Any) {
         addToBasketListAction?()

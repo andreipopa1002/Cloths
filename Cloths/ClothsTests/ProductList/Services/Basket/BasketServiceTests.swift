@@ -50,7 +50,7 @@ final class BasketServiceTests: XCTestCase {
     }
 
     func test_Given403_WhenAddProductId_ThenFailureNotInStock() {
-        var capturedError: BasketServiceError?
+        var capturedError: BasketAddError?
         service.add(productId: 0) { result in
             if case .failure(let error) = result {
                 capturedError = error
@@ -63,7 +63,7 @@ final class BasketServiceTests: XCTestCase {
     }
 
     func test_Given404_WhenAddProductId_ThenFailureNoProductWithId() {
-        var capturedError: BasketServiceError?
+        var capturedError: BasketAddError?
         service.add(productId: 0) { result in
             if case .failure(let error) = result {
                 capturedError = error
@@ -76,7 +76,7 @@ final class BasketServiceTests: XCTestCase {
     }
 
     func test_GivenRandomStatusCode_WhenAddProductId_ThenFailureUnknown() {
-        var capturedError: BasketServiceError?
+        var capturedError: BasketAddError?
         service.add(productId: 0) { result in
             if case .failure(let error) = result {
                 capturedError = error
@@ -90,7 +90,7 @@ final class BasketServiceTests: XCTestCase {
     }
 
     func test_GivenAuthorizedError_WhenAddProductId_ThenResultWithSameError() {
-        var capturedError: BasketServiceError?
+        var capturedError: BasketAddError?
         service.add(productId: 0) { result in
             if case .failure(let error) = result {
                 capturedError = error
@@ -100,7 +100,7 @@ final class BasketServiceTests: XCTestCase {
         let stubbedError = DescriptiveError(customDescription: "product list fetch error")
         inferedDecodingCompletion()?(.failure(.networkError(stubbedError)))
 
-        XCTAssertEqual(capturedError, BasketServiceError.authorizedError(.networkError(stubbedError)))
+        XCTAssertEqual(capturedError, BasketAddError.authorizedError(.networkError(stubbedError)))
     }
 }
 

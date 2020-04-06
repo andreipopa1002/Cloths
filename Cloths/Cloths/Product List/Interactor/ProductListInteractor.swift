@@ -3,7 +3,7 @@ import Foundation
 protocol ProductListInteractorOutputInterface: AnyObject {
     func didFetched(products: [Product])
     func didFailedFetchingProducts(error: AuthorizedServiceError)
-    func didFailedAddToBasket(error: BasketServiceError)
+    func didFailedAddToBasket(error: BasketAddError)
 }
 
 protocol ProductListInteractorInterface {

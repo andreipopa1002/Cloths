@@ -12,6 +12,10 @@
 		257F83DB243A716900917D4C /* WishListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257F83DA243A716900917D4C /* WishListScreen.swift */; };
 		257F83DD243A7F8B00917D4C /* BasketScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257F83DC243A7F8B00917D4C /* BasketScreen.swift */; };
 		257F83E0243A803300917D4C /* BasketFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257F83DF243A803300917D4C /* BasketFactory.swift */; };
+		257F83E4243A839E00917D4C /* WishListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257F83E3243A839E00917D4C /* WishListInteractor.swift */; };
+		257F83E7243A8AB000917D4C /* BasketInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257F83E6243A8AB000917D4C /* BasketInteractor.swift */; };
+		257F83E9243A8DCB00917D4C /* BasketInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257F83E8243A8DCB00917D4C /* BasketInterface.swift */; };
+		257F83EB243A98F200917D4C /* ServiceFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257F83EA243A98F200917D4C /* ServiceFactory.swift */; };
 		25C3280A24364EA200B315B3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C3280924364EA200B315B3 /* AppDelegate.swift */; };
 		25C3281124364EA200B315B3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 25C3280F24364EA200B315B3 /* Main.storyboard */; };
 		25C3281324364EA300B315B3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 25C3281224364EA300B315B3 /* Assets.xcassets */; };
@@ -69,6 +73,10 @@
 		257F83DA243A716900917D4C /* WishListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WishListScreen.swift; sourceTree = "<group>"; };
 		257F83DC243A7F8B00917D4C /* BasketScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasketScreen.swift; sourceTree = "<group>"; };
 		257F83DF243A803300917D4C /* BasketFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasketFactory.swift; sourceTree = "<group>"; };
+		257F83E3243A839E00917D4C /* WishListInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WishListInteractor.swift; sourceTree = "<group>"; };
+		257F83E6243A8AB000917D4C /* BasketInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasketInteractor.swift; sourceTree = "<group>"; };
+		257F83E8243A8DCB00917D4C /* BasketInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasketInterface.swift; sourceTree = "<group>"; };
+		257F83EA243A98F200917D4C /* ServiceFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceFactory.swift; sourceTree = "<group>"; };
 		25C3280624364EA200B315B3 /* Cloths.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cloths.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		25C3280924364EA200B315B3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		25C3281024364EA200B315B3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -136,6 +144,7 @@
 			isa = PBXGroup;
 			children = (
 				257F83D6243A6C9300917D4C /* WishListFactory.swift */,
+				257F83E2243A837F00917D4C /* Interactor */,
 			);
 			path = WishList;
 			sourceTree = "<group>";
@@ -143,9 +152,26 @@
 		257F83DE243A801E00917D4C /* Basket */ = {
 			isa = PBXGroup;
 			children = (
+				257F83E5243A8A9300917D4C /* Interactor */,
 				257F83DF243A803300917D4C /* BasketFactory.swift */,
 			);
 			path = Basket;
+			sourceTree = "<group>";
+		};
+		257F83E2243A837F00917D4C /* Interactor */ = {
+			isa = PBXGroup;
+			children = (
+				257F83E3243A839E00917D4C /* WishListInteractor.swift */,
+			);
+			path = Interactor;
+			sourceTree = "<group>";
+		};
+		257F83E5243A8A9300917D4C /* Interactor */ = {
+			isa = PBXGroup;
+			children = (
+				257F83E6243A8AB000917D4C /* BasketInteractor.swift */,
+			);
+			path = Interactor;
 			sourceTree = "<group>";
 		};
 		25C327FD24364EA200B315B3 = {
@@ -293,6 +319,7 @@
 		25C328572436603600B315B3 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				257F83EA243A98F200917D4C /* ServiceFactory.swift */,
 				25F2D9FA243A4D3100119C63 /* WishListService */,
 				25C329D92438001700B315B3 /* Basket */,
 				25C329D72437FFE200B315B3 /* ProductList */,
@@ -395,6 +422,7 @@
 		25C329D92438001700B315B3 /* Basket */ = {
 			isa = PBXGroup;
 			children = (
+				257F83E8243A8DCB00917D4C /* BasketInterface.swift */,
 				25C329DA2438004B00B315B3 /* BasketService.swift */,
 			);
 			path = Basket;
@@ -547,16 +575,20 @@
 				257F83D9243A6EB200917D4C /* ProductListScreen.swift in Sources */,
 				25C329D02437C58B00B315B3 /* ProductViewModelBuilder.swift in Sources */,
 				25C32842243658F300B315B3 /* Date+fractionalSeconds.swift in Sources */,
+				257F83EB243A98F200917D4C /* ServiceFactory.swift in Sources */,
 				25C3280A24364EA200B315B3 /* AppDelegate.swift in Sources */,
+				257F83E7243A8AB000917D4C /* BasketInteractor.swift in Sources */,
 				25C329D62437F5BB00B315B3 /* AppRouter.swift in Sources */,
 				25C3286824367CF400B315B3 /* ProductListInteractor.swift in Sources */,
 				25C32861243673AB00B315B3 /* Product.swift in Sources */,
 				25C328762436913D00B315B3 /* Router.swift in Sources */,
+				257F83E9243A8DCB00917D4C /* BasketInterface.swift in Sources */,
 				257F83DD243A7F8B00917D4C /* BasketScreen.swift in Sources */,
 				25C32843243658F300B315B3 /* NetworkServiceInterface.swift in Sources */,
 				25F2D9F9243A3C6E00119C63 /* DescriptiveError.swift in Sources */,
 				25C329CE2437B78F00B315B3 /* ProductTableViewCell.swift in Sources */,
 				257F83DB243A716900917D4C /* WishListScreen.swift in Sources */,
+				257F83E4243A839E00917D4C /* WishListInteractor.swift in Sources */,
 				25C32841243658F300B315B3 /* URLRequest+json.swift in Sources */,
 				25C3285F24366C4500B315B3 /* Environment.swift in Sources */,
 				25C3283F243658F300B315B3 /* DecodingService.swift in Sources */,

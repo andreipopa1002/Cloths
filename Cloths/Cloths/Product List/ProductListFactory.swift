@@ -4,10 +4,11 @@ class ProductListFactory {
     func viewController() -> UIViewController {
         let view = UIStoryboard.init(name: "Main", bundle: .main)
             .instantiateViewController(identifier: "ProductListViewController") as! ProductListViewController
+        let serviceFactory = ServiceFactory()
 
         let interactor = ProductListInteractor(
-            productListService:self.productService(),
-            basketService: self.basketService(),
+            productListService: serviceFactory.productService(),
+            basketService: serviceFactory.basketService(),
             wishListService: WishListService(simplePersistence: UserDefaults.standard)
         )
         let router = ProductRouter(errorViewFactory: ErrorViewControllerFactory())
@@ -25,27 +26,4 @@ class ProductListFactory {
         return view
     }
 }
-
-private extension ProductListFactory {
-    func productService() -> ProductListService {
-        return ProductListService(
-            decodingService: decodingAuthorizedService()
-        )
-    }
-
-    func basketService() -> BasketService {
-        BasketService(decodingService: decodingAuthorizedService())
-    }
-
-    func decodingAuthorizedService() -> DecodingService {
-        let authorizedService = AuthorizedService(
-            service: NetworkService(with: URLSession.shared), tokenProvider: APIKeyProvider()
-        )
-        return DecodingService(
-            service: authorizedService,
-            decoder: JSONDecoder()
-        )
-    }
-}
-
 

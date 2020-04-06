@@ -1,19 +1,5 @@
 import Foundation
 
-struct BasketAddResponse: Decodable, Equatable {
-    let message: String
-}
-enum BasketServiceError: Error, Equatable {
-    case notInStock, noProductWithProductId, unknown
-    case authorizedError(AuthorizedServiceError)
-}
-typealias BasketAddResult = Result<Void, BasketServiceError>
-typealias BasketAddCompletion = (BasketAddResult) -> ()
-
-protocol BasketServiceInterface {
-    func add(productId: Int, completion:@escaping BasketAddCompletion)
-}
-
 final class BasketService {
     private let decodingService: DecodingServiceInterface
 
@@ -23,6 +9,20 @@ final class BasketService {
 }
 
 extension BasketService: BasketServiceInterface {
+    func getBasket(completion: @escaping BasketGetCompletion) {
+        var request = URLRequest(url: URL(string: Environment.baseUrlString + "/cart")!)
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+
+        getBasket(request: request) { result in
+            switch result {
+            case .success(let tuple):
+                completion(.success(tuple.model ?? [BasketGetResponse]()))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+
     func add(productId: Int, completion:@escaping BasketAddCompletion) {
         var urlComponents = URLComponents(string: Environment.baseUrlString + "/cart")!
         urlComponents.queryItems = [URLQueryItem(name: "productId", value: String(productId))]
@@ -30,7 +30,7 @@ extension BasketService: BasketServiceInterface {
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         request.httpMethod = "POST"
 
-        fetch(request: request) { result in
+        addToBasket(request: request) { result in
             switch result {
             case .success(let tuple):
                 if let urlResposne = tuple.response as? HTTPURLResponse{
@@ -53,7 +53,11 @@ extension BasketService: BasketServiceInterface {
 }
 
 private extension BasketService {
-    func fetch(request: URLRequest, completion: @escaping DecodingServiceCompletion<BasketAddResponse>) {
+    func getBasket(request: URLRequest, completion: @escaping DecodingServiceCompletion<[BasketGetResponse]>) {
+        decodingService.fetch(request: request, completion: completion)
+    }
+
+    func addToBasket(request: URLRequest, completion: @escaping DecodingServiceCompletion<BasketAddResponse>) {
         decodingService.fetch(request: request, completion: completion)
     }
 }

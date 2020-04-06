@@ -5,10 +5,18 @@ protocol ProductViewModelBuilderInterface {
 }
 
 final class ProductViewModelBuilder {
-    private let interactor: ProductListInteractorInterface!
+    enum Configuration {
+        case addToBasket, addToWishList, all, none
+    }
+    private let interactor: ProductListInteractorInterface
+    private let configuration: Configuration
 
-    init(interactor: ProductListInteractorInterface) {
+    init(
+        interactor: ProductListInteractorInterface,
+        configuration: ProductViewModelBuilder.Configuration = .all
+    ) {
         self.interactor = interactor
+        self.configuration = configuration
     }
 }
 
@@ -38,23 +46,38 @@ private extension ProductViewModelBuilder {
         if let price = product.oldPrice {
             oldPrice = "Old price: " + price
         }
-
-        var addToBasketAction: (() -> ())?
-        if product.stock > 0 {
-            addToBasketAction = { [weak self] in
-                self?.interactor.addToBasket(productId: product.id)
-            }
-        }
         
         return ProductViewModel(
             name: "Product: " + product.name,
             price: "Price: " + product.price,
             oldPrice: oldPrice,
             stockNumber: "\(product.stock) in stock",
-            addToBasketAction: addToBasketAction,
-            addToWishListAction: { [weak self] in
+            addToBasketAction: addToBasketAction(product: product),
+            addToWishListAction: addToWishListAction(product: product)
+        )
+    }
+
+    func addToBasketAction(product: Product) -> (() -> ())? {
+        guard product.stock > 0 else { return nil }
+
+        switch configuration {
+        case .addToBasket, .all:
+            return { [weak self] in
+                self?.interactor.addToBasket(productId: product.id)
+            }
+        default:
+            return nil
+        }
+    }
+
+    func addToWishListAction(product: Product) -> (() -> ())? {
+        switch configuration {
+        case .addToWishList, .all:
+            return { [weak self] in
                 self?.interactor.addToWishList(productId: product.id)
             }
-        )
+        default:
+            return nil
+        }
     }
 }

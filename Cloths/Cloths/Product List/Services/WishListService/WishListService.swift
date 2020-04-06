@@ -3,6 +3,7 @@ import Foundation
 protocol WishListServiceInterface {
     func addToWishList(productId: Int)
     func productIdsFromWishList() -> [Int]
+    func removeFromWishList(productId: Int)
 }
 
 protocol SimplePersistenceInterface {
@@ -31,5 +32,10 @@ extension WishListService: WishListServiceInterface {
     func productIdsFromWishList() -> [Int] {
         let list = simplePersistence.array(forKey: persistenceKey) as? [Int]
         return list ?? []
+    }
+
+    func removeFromWishList(productId: Int) {
+        let productIds = productIdsFromWishList()
+        simplePersistence.set(productIds.filter {$0 != productId}, forKey: persistenceKey)
     }
 }
