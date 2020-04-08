@@ -1,13 +1,13 @@
 # Cloths
 #### Problem
-1.Done: As a Customer I can view the products and their category, price, old price for discounted products and availability information. 
-2.Done: As a Customer I can add a product to my shopping cart.
-3.Done: As a Customer I can add a product to my wishlist.
+1. Done: As a Customer I can view the products and their category, price, old price for discounted products and availability information. 
+2. Done: As a Customer I can add a product to my shopping cart.
+3. Done: As a Customer I can add a product to my wishlist.
 4. As a Customer I can remove a product from my shopping cart.
 5. As a Customer I can view the total price for the products in my shopping cart. 
-6.Done: As a Customer I am unable to add Out of Stock products to the shopping cart. 
+6. Done: As a Customer I am unable to add Out of Stock products to the shopping cart. 
 7. As a Customer I can remove a product from my wishlist.
-8.Done: As a Customer I can move a product from my wishlist to the shopping cart.
+8. Done: As a Customer I can move a product from my wishlist to the shopping cart.
 
 #### App layout
 To achieve the acceptance criteria a set of 3 screens are needed:
