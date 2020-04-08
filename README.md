@@ -40,5 +40,6 @@ To achieve the acceptance criteria a set of 3 screens are needed:
 #### Aspects not implemented:
 - string localization
 - loading animations for when calls are in progress
+- secure storage of the API key
 
  
