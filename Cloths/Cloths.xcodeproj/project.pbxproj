@@ -20,7 +20,6 @@
 		25C3281124364EA200B315B3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 25C3280F24364EA200B315B3 /* Main.storyboard */; };
 		25C3281324364EA300B315B3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 25C3281224364EA300B315B3 /* Assets.xcassets */; };
 		25C3281624364EA300B315B3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 25C3281424364EA300B315B3 /* LaunchScreen.storyboard */; };
-		25C3282124364EA300B315B3 /* ClothsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C3282024364EA300B315B3 /* ClothsTests.swift */; };
 		25C3283F243658F300B315B3 /* DecodingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C32837243658F300B315B3 /* DecodingService.swift */; };
 		25C32840243658F300B315B3 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C32839243658F300B315B3 /* NetworkService.swift */; };
 		25C32841243658F300B315B3 /* URLRequest+json.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C3283A243658F300B315B3 /* URLRequest+json.swift */; };
@@ -84,7 +83,6 @@
 		25C3281524364EA300B315B3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		25C3281724364EA300B315B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		25C3281C24364EA300B315B3 /* ClothsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClothsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		25C3282024364EA300B315B3 /* ClothsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClothsTests.swift; sourceTree = "<group>"; };
 		25C3282224364EA300B315B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		25C32837243658F300B315B3 /* DecodingService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DecodingService.swift; sourceTree = "<group>"; };
 		25C32839243658F300B315B3 /* NetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
@@ -214,7 +212,6 @@
 			children = (
 				25C3285A2436650400B315B3 /* ProductList */,
 				25C3282C243652D000B315B3 /* Services */,
-				25C3282024364EA300B315B3 /* ClothsTests.swift */,
 				25C3282224364EA300B315B3 /* Info.plist */,
 			);
 			path = ClothsTests;
@@ -614,7 +611,6 @@
 				25C3285424365A3500B315B3 /* MockDecoder.swift in Sources */,
 				25C329DD2438A90D00B315B3 /* ProductViewModelBuilderTests.swift in Sources */,
 				25C3284D2436592E00B315B3 /* NetworkServiceTests.swift in Sources */,
-				25C3282124364EA300B315B3 /* ClothsTests.swift in Sources */,
 				25C32865243678FF00B315B3 /* ProductTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
